@@ -929,3 +929,54 @@ logthis(response.responseText);
 _globals.loginRequestFailed = function(){
 	logthis("login failed");
 };
+
+function callApp(inSender, appids, serviceParams, message) {
+	 
+	//var appids = this.appids; //['com.funkatron.app.spaz-sped', 'com.funkatron.app.spaz', 'com.funkatron.app.spaz-beta'];
+	var index = 0;
+    //just change your app ids if you are using a different app.
+	function makeCall() {
+		if (index < appids.length) {
+ 
+			Mojo.Log.info('Trying to launch with appid %s', appids[index]);
+ 
+			var request = new Mojo.Service.Request("palm://com.palm.applicationManager", {
+				method: 'launch',
+				parameters: {
+					id: appids[index],
+					params: serviceParams
+				},
+				onFailure: function() {
+					Mojo.Log.info('Failed to launch with appid %s', appids[index]);
+					index++; // go to next appid
+					makeCall(); // retry
+				}.bind(this)
+			});
+ 
+		} else {
+			Mojo.Log.error('Failed to launch');                   
+			// or alternatively you can prompt the user to download the app in question
+			var currentScene = inSender.controller.stageController.activeScene();
+			currentScene.showAlertDialog({title: $L("App Not Installed"),
+				onChoose: function(value) {
+					if (value == "INSTALL") {
+						this.controller.serviceRequest("palm://com.palm.applicationManager", {
+							method: "open",
+							parameters: {
+								id: 'com.palm.app.browser',
+								params: {target: "http://developer.palm.com/appredirect/?packageid="+ appids[index]}
+							}
+						});
+					}
+				}.bind(inSender),
+				message: $L(message),
+				choices: [
+					{label:$L('Install'), value:"INSTALL"},
+					{label:$L('Continue'), value:"CLOSE"}
+				]
+			});
+		}
+ 
+	}
+    makeCall();
+}

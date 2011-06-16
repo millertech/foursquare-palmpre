@@ -546,53 +546,18 @@ VenuedetailAssistant.prototype.infoTapped = function(event) {
 					});
 					logthis("Web");
 					break;				
-				case "badkitty":
-					logthis("badkitty");
-				   try{
-				      this.controller.serviceRequest("palm://com.palm.applicationManager", {
-				         method: 'launch',
-				         parameters: {
-				            id: 'com.superinhuman.badkitty',
-				            params: {action: 'user', name: event.item.username}
-				         },
-				         onSuccess:function(){
-				         }.bind(this),
-				         onFailure:function(){
-				            this.controller.serviceRequest('palm://com.palm.applicationManager', {
-				                method:'open',
-				                   parameters:{
-				                   target: event.item.url
-				                        }
-				             });
-				         }.bind(this)
-				      })
-				   }catch(e){
-				   }
+				case "spaz":
+					callApp(this, ['com.funkatron.app.spaz-sped','com.funkatron.app.spaz', 'com.funkatron.app.spaz-beta'], {action: 'user', userid: event.item.username},"Would you like to install the free Spaz application from the App Catalog?");	
+					break;
 				
+				case "carbon":
+					callApp(this, ['com.dotsandlines.carbon','com.dotsandlines.carbonbeta'], {action: "justtype", todo: "search", keywords: event.item.username}, "Would you like to purchase and download Carbon from the App Catalog?");				
+					break;
+				case "badkitty":
+					callApp(this, ["com.superinhuman.badkitty"],{action: 'user', name: event.item.username},"Would you like to purchase and download Bad Kitty from the App Catalog?");	
 					break;
 				case "tweetme":
-					logthis("tweetme");
-				   try{
-				      this.controller.serviceRequest("palm://com.palm.applicationManager", {
-				         method: 'launch',
-				         parameters: {
-				            id: 'com.catalystmediastudios.tweetme',
-				            params: {action: 'user', name: event.item.username}
-				         },
-				         onSuccess:function(){
-				         }.bind(this),
-				         onFailure:function(){
-				            this.controller.serviceRequest('palm://com.palm.applicationManager', {
-				                method:'open',
-				                   parameters:{
-				                   target: event.item.url
-				                        }
-				             });
-				         }.bind(this)
-				      })
-				   }catch(e){
-				   }
-				
+					callApp(this, ["com.catalystmediastudios.tweetme"],{action: 'user', name: event.item.username},"Would you like to purchase and download Tweet Me from the App Catalog?");	
 					break;
 			}
 			break;
