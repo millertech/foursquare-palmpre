@@ -107,8 +107,11 @@ PreferencesAssistant.prototype.setup = function() {
         this.twitterattributes = {
             choices: [
                 {label: "Web Browser", value: "web",secondaryIconPath: "images/web_32.png"},
+				{label: "Carbon", value: "carbon",secondaryIconPath: "images/carbon32.png"},
+				{label: "Spaz", value: "spaz",secondaryIconPath: "images/spaz32.png"},
                 {label: "Bad Kitty", value: "badkitty",secondaryIconPath: "images/bad_kitty_32.png"},
                 {label: "TweetMe", value: "tweetme",secondaryIconPath: "images/tweetme_32.png"}
+				
                 ]},
 
         this.twittermodel = {
